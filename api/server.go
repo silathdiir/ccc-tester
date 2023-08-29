@@ -43,4 +43,8 @@ const (
 	// ecc contracts
 	EcAddName      = SolType("ecAdd")
 	EcMulName      = SolType("ecMul")
+
+	// hash contracts
+	Sha256Name      = SolType("sha256")
+	Keccak256Name  = SolType("keccak256")
 )

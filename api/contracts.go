@@ -23,6 +23,7 @@ import (
 	"tool/contracts/ecc"
 	"tool/contracts/greeter"
 	"tool/contracts/nft"
+	"tool/contracts/hash"
 	"tool/contracts/sushi"
 	"tool/contracts/uniswap/factory"
 	"tool/contracts/uniswap/router"
@@ -636,5 +637,38 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 	default:
 		return errors.New("unimplemented")
 	}
+	return storeBlockResultsForTxs(ctx, client, path, action, tx)
+}
+
+func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.TransactOpts, action string, times int64) error {
+	log.Info("deploying contracts")
+	_, tx, impl, err := hash.DeployHash(root, client)
+	if err != nil {
+		return err
+	}
+
+	path := TRACEDATA_DIR_PREFIX + "hash/"
+	if err = storeBlockResultsForTxs(ctx, client, path, "deploy", tx); err != nil {
+		return err
+	}
+
+	log.Info("calling contracts", "action", action, "times-in-a-call", times)
+	
+	
+	switch action {
+	case "sha256":
+		tx, err = impl.Sha256s(root, big.NewInt(times))
+		if err != nil {
+			return err
+		}
+	case "keccak256":
+		tx, err = impl.Keccak256s(root, big.NewInt(times))
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.New("unimplemented")
+	}
+
 	return storeBlockResultsForTxs(ctx, client, path, action, tx)
 }

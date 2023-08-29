@@ -29,5 +29,6 @@ trace_data:
 	./bin/trace_dumper -dump uniswapv2
 	./bin/trace_dumper -dump multi_uniswapv2
 
-abigen_ecc:
+abigen_precompiles:
 	abigen --sol contracts/ecc/ecc.sol --pkg ecc --out contracts/ecc/ecc.go
+	abigen --sol contracts/hash/hash.sol --pkg hash --out contracts/hash/hash.go
