@@ -509,6 +509,7 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 	case "add":
 		for i := int64(0); i < timesOuter; i++ {
 			tx, err = impl.EcAdds(root, big.NewInt(timesInner))
+			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
 			if err != nil {
 				return err
 			}
@@ -517,6 +518,7 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 	case "mul":
 		for i := int64(0); i < timesOuter; i++ {
 			tx, err = impl.EcMuls(root, big.NewInt(timesInner))
+			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
 			if err != nil {
 				return err
 			}
@@ -525,6 +527,7 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 	case "pairing":
 		for i := int64(0); i < timesOuter; i++ {
 			tx, err = impl.EcPairings(root, big.NewInt(timesInner))
+			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
 			if err != nil {
 				return err
 			}
@@ -554,6 +557,7 @@ func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.Tra
 	case "sha256":
 		for i := int64(0); i < timesOuter; i++ {
 			tx, err = impl.Sha256s(root, big.NewInt(timesInner))
+			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
 			if err != nil {
 				return err
 			}
@@ -562,6 +566,7 @@ func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.Tra
 	case "keccak256":
 		for i := int64(0); i < timesOuter; i++ {
 			tx, err = impl.Keccak256s(root, big.NewInt(timesInner))
+			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
 			if err != nil {
 				return err
 			}
@@ -570,6 +575,8 @@ func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.Tra
 	default:
 		return errors.New("unimplemented")
 	}
+
+	log.Info("all sent")
 
 	return storeBlockResultsForTxs(ctx, client, path, action, txs...)
 }
