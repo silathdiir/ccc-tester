@@ -19,7 +19,7 @@ var (
 	endpoint = flag.String("endpoint", "ws://127.0.0.1:8546", "The endpoint to connect to blockchain node")
 	keystore = flag.String("keystore", "./docker/l2geth/genesis-keystore", "Keystore file path")
 	password = flag.String("password", "scrolltest", "The keystore password")
-	dump     = flag.String("dump", "erc20", "e.g: erc20, native, nft, greeter, sushi, dao, uniswapv2, multi_uniswapv2, ecAdd, ecMul, sha256, keccak256")
+	dump     = flag.String("dump", "erc20", "e.g: erc20, native, nft, greeter, sushi, dao, uniswapv2, multi_uniswapv2, ecAdd, ecPairing, sha256, keccak256")
 	times    = flag.Int64("n", 50, "iteration times in a contract call")
 )
 
@@ -82,6 +82,8 @@ func main() {
 		err = api.NewEcc(ctx, client, root, auth, "add", *times)
 	case api.EcMulName:
 		err = api.NewEcc(ctx, client, root, auth, "mul", *times)
+	case api.EcPairingName:
+		err = api.NewEcc(ctx, client, root, auth, "pairing", *times)
 	case api.Sha256Name:
 		err = api.NewHash(ctx, client, root, auth, "sha256", *times)
 	case api.Keccak256Name:
