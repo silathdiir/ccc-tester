@@ -34,17 +34,17 @@ const (
 	DaoName  = SolType("dao")
 
 	// uniswapv2 contracts
-	Uniswapv2Name      = SolType("uniswapv2")
-	FactoryName        = SolType("factory")
-	RouterName         = SolType("router")
-	MulticallName      = SolType("multicall")
+	Uniswapv2Name = SolType("uniswapv2")
+	FactoryName   = SolType("factory")
+	RouterName    = SolType("router")
+	MulticallName = SolType("multicall")
 
 	// ecc contracts
-	EcAddName      = SolType("ecAdd")
-	EcMulName      = SolType("ecMul")
-	EcPairingName  = SolType("ecPairing")
+	EcAddName     = SolType("ecAdd")
+	EcMulName     = SolType("ecMul")
+	EcPairingName = SolType("ecPairing")
 
 	// hash contracts
-	Sha256Name     = SolType("sha256")
-	Keccak256Name  = SolType("keccak256")
+	Sha256Name    = SolType("sha256")
+	Keccak256Name = SolType("keccak256")
 )

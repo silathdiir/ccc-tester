@@ -19,11 +19,11 @@ import (
 
 	"tool/accounts"
 	"tool/contracts/dao"
-	"tool/contracts/erc20"
 	"tool/contracts/ecc"
+	"tool/contracts/erc20"
 	"tool/contracts/greeter"
-	"tool/contracts/nft"
 	"tool/contracts/hash"
+	"tool/contracts/nft"
 	"tool/contracts/sushi"
 	"tool/contracts/uniswap/factory"
 	"tool/contracts/uniswap/router"
@@ -491,7 +491,7 @@ func NewUniswapv2(ctx context.Context, client *ethclient.Client, root, auth *bin
 	return storeBlockResultsForTxs(ctx, client, path, "router-swapExactTokensForTokens", txs...)
 }
 
-func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.TransactOpts, action string, times int64) error {
+func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.TransactOpts, action string, timesInner, timesOuter int64) error {
 	log.Info("deploying contracts")
 	_, tx, impl, err := ecc.DeployEcc(root, client)
 	if err != nil {
@@ -503,31 +503,40 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 		return err
 	}
 
-	log.Info("calling contracts", "action", action, "times-in-a-call", times)
-	
+	log.Info("calling contracts", "action", action, "times-in-a-call", timesInner, "times-of-calls", timesOuter)
+	var txs = make([]*types.Transaction, 0, timesOuter)
 	switch action {
 	case "add":
-		tx, err = impl.EcAdds(root, big.NewInt(times))
-		if err != nil {
-			return err
+		for i := int64(0); i < timesOuter; i++ {
+			tx, err = impl.EcAdds(root, big.NewInt(timesInner))
+			if err != nil {
+				return err
+			}
+			txs = append(txs, tx)
 		}
 	case "mul":
-		tx, err = impl.EcMuls(root, big.NewInt(times))
-		if err != nil {
-			return err
+		for i := int64(0); i < timesOuter; i++ {
+			tx, err = impl.EcMuls(root, big.NewInt(timesInner))
+			if err != nil {
+				return err
+			}
+			txs = append(txs, tx)
 		}
 	case "pairing":
-		tx, err = impl.EcPairings(root, big.NewInt(times))
-		if err != nil {
-			return err
+		for i := int64(0); i < timesOuter; i++ {
+			tx, err = impl.EcPairings(root, big.NewInt(timesInner))
+			if err != nil {
+				return err
+			}
+			txs = append(txs, tx)
 		}
 	default:
 		return errors.New("unimplemented")
 	}
-	return storeBlockResultsForTxs(ctx, client, path, action, tx)
+	return storeBlockResultsForTxs(ctx, client, path, action, txs...)
 }
 
-func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.TransactOpts, action string, times int64) error {
+func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.TransactOpts, action string, timesInner, timesOuter int64) error {
 	log.Info("deploying contracts")
 	_, tx, impl, err := hash.DeployHash(root, client)
 	if err != nil {
@@ -539,23 +548,28 @@ func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.Tra
 		return err
 	}
 
-	log.Info("calling contracts", "action", action, "times-in-a-call", times)
-	
-	
+	log.Info("calling contracts", "action", action, "times-in-a-call", timesInner, "times-of-calls", timesOuter)
+	var txs = make([]*types.Transaction, 0, timesOuter)
 	switch action {
 	case "sha256":
-		tx, err = impl.Sha256s(root, big.NewInt(times))
-		if err != nil {
-			return err
+		for i := int64(0); i < timesOuter; i++ {
+			tx, err = impl.Sha256s(root, big.NewInt(timesInner))
+			if err != nil {
+				return err
+			}
+			txs = append(txs, tx)
 		}
 	case "keccak256":
-		tx, err = impl.Keccak256s(root, big.NewInt(times))
-		if err != nil {
-			return err
+		for i := int64(0); i < timesOuter; i++ {
+			tx, err = impl.Keccak256s(root, big.NewInt(timesInner))
+			if err != nil {
+				return err
+			}
+			txs = append(txs, tx)
 		}
 	default:
 		return errors.New("unimplemented")
 	}
 
-	return storeBlockResultsForTxs(ctx, client, path, action, tx)
+	return storeBlockResultsForTxs(ctx, client, path, action, txs...)
 }
