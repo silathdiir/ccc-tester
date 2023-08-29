@@ -19,8 +19,9 @@ var (
 	endpoint = flag.String("endpoint", "ws://127.0.0.1:8546", "The endpoint to connect to blockchain node")
 	keystore = flag.String("keystore", "./docker/l2geth/genesis-keystore", "Keystore file path")
 	password = flag.String("password", "scrolltest", "The keystore password")
-	dump     = flag.String("dump", "erc20", "e.g: erc20, native, nft, greeter, sushi, dao, uniswapv2, multi_uniswapv2, ecAdd, ecPairing, sha256, keccak256")
-	times    = flag.Int64("n", 50, "iteration times in a contract call")
+	dump     = flag.String("dump", "erc20", "e.g: erc20, native, nft, greeter, sushi, dao, uniswapv2, ecAdd, ecPairing, sha256, keccak256")
+	timesInner    = flag.Int64("n", 50, "iteration times in a contract call")
+	timesOuter    = flag.Int64("m", 1, "times of contract call")
 )
 
 func init() {
@@ -75,19 +76,17 @@ func main() {
 	case api.DaoName:
 		err = api.NewDao(ctx, client, root, auth)
 	case api.Uniswapv2Name:
-		err = api.NewUniswapv2(ctx, client, root, auth)
-	case api.MultiUniswapv2Name:
-		err = api.NewMultiUniswapv2(ctx, client, root, auth)
+		err = api.NewUniswapv2(ctx, client, root, auth, *timesOuter)
 	case api.EcAddName:
-		err = api.NewEcc(ctx, client, root, auth, "add", *times)
+		err = api.NewEcc(ctx, client, root, auth, "add", *timesInner)
 	case api.EcMulName:
-		err = api.NewEcc(ctx, client, root, auth, "mul", *times)
+		err = api.NewEcc(ctx, client, root, auth, "mul", *timesInner)
 	case api.EcPairingName:
-		err = api.NewEcc(ctx, client, root, auth, "pairing", *times)
+		err = api.NewEcc(ctx, client, root, auth, "pairing", *timesInner)
 	case api.Sha256Name:
-		err = api.NewHash(ctx, client, root, auth, "sha256", *times)
+		err = api.NewHash(ctx, client, root, auth, "sha256", *timesInner)
 	case api.Keccak256Name:
-		err = api.NewHash(ctx, client, root, auth, "keccak256", *times)
+		err = api.NewHash(ctx, client, root, auth, "keccak256", *timesInner)
 	default:
 		log.Error("unexpected dump option")
 		return
