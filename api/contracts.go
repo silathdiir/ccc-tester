@@ -505,36 +505,22 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 
 	log.Info("calling contracts", "action", action, "times-in-a-call", timesInner, "times-of-calls", timesOuter)
 	var txs = make([]*types.Transaction, 0, timesOuter)
-	switch action {
-	case "add":
-		for i := int64(0); i < timesOuter; i++ {
+	for i := int64(0); i < timesOuter; i++ {
+		switch action {
+		case "add":
 			tx, err = impl.EcAdds(root, big.NewInt(timesInner))
-			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
-			if err != nil {
-				return err
-			}
-			txs = append(txs, tx)
-		}
-	case "mul":
-		for i := int64(0); i < timesOuter; i++ {
+		case "mul":
 			tx, err = impl.EcMuls(root, big.NewInt(timesInner))
-			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
-			if err != nil {
-				return err
-			}
-			txs = append(txs, tx)
-		}
-	case "pairing":
-		for i := int64(0); i < timesOuter; i++ {
+		case "pairing":
 			tx, err = impl.EcPairings(root, big.NewInt(timesInner))
-			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
-			if err != nil {
-				return err
-			}
-			txs = append(txs, tx)
+		default:
+			return errors.New("unimplemented")
 		}
-	default:
-		return errors.New("unimplemented")
+		log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
+		if err != nil {
+			return err
+		}
+		txs = append(txs, tx)
 	}
 	return storeBlockResultsForTxs(ctx, client, path, action, txs...)
 }
@@ -553,30 +539,20 @@ func NewHash(ctx context.Context, client *ethclient.Client, root, auth *bind.Tra
 
 	log.Info("calling contracts", "action", action, "times-in-a-call", timesInner, "times-of-calls", timesOuter)
 	var txs = make([]*types.Transaction, 0, timesOuter)
-	switch action {
-	case "sha256":
-		for i := int64(0); i < timesOuter; i++ {
+	for i := int64(0); i < timesOuter; i++ {
+		switch action {
+		case "sha256":
 			tx, err = impl.Sha256s(root, big.NewInt(timesInner))
-			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
-			if err != nil {
-				return err
-			}
-			txs = append(txs, tx)
-		}
-	case "keccak256":
-		for i := int64(0); i < timesOuter; i++ {
+		case "keccak256":
 			tx, err = impl.Keccak256s(root, big.NewInt(timesInner))
-			log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
-			if err != nil {
-				return err
-			}
-			txs = append(txs, tx)
+		default:
+			return errors.New("unimplemented")
 		}
-	default:
-		return errors.New("unimplemented")
+		log.Info("sending", "i", i+1, "total", timesOuter, "txHash", tx.Hash().String())
+		if err != nil {
+			return err
+		}
+		txs = append(txs, tx)
 	}
-
-	log.Info("all sent")
-
 	return storeBlockResultsForTxs(ctx, client, path, action, txs...)
 }
