@@ -1,4 +1,4 @@
-FROM scrolltech/l2geth:scroll-v4.3.55
+FROM scrolltech/l2geth:scroll-v4.3.58
 
 ENV RUST_LOG="info"
 

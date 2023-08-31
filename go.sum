@@ -61,8 +61,8 @@ github.com/prometheus/tsdb v0.7.1 h1:YZcsG11NqnK4czYLrWd9mpEuAJIHVQLwdrleYfszMAA
 github.com/rjeczalik/notify v0.9.1 h1:CLCKso/QK1snAlnhNR/CNvNiFU2saUtjV0bx3EwNeCE=
 github.com/rjeczalik/notify v0.9.1/go.mod h1:rKwnCoCGeuQnwBtTSPL9Dad03Vh2n40ePRrjvIXnJho=
 github.com/rs/cors v1.7.0 h1:+88SsELBHx5r+hZ8TCkggzSstaWNbDvThkVK8H6f9ik=
-github.com/scroll-tech/go-ethereum v1.10.14-0.20230829000527-f883dcdc21fc h1:eK3NOpjgm/b2TQ6rYqWx92Zri0kBuxf6gKjjsVxWKr8=
-github.com/scroll-tech/go-ethereum v1.10.14-0.20230829000527-f883dcdc21fc/go.mod h1:DiN3p2inoXOxGffxSswDKqWjQ7bU+Mp0c9v0XQXKmaA=
+github.com/scroll-tech/go-ethereum v1.10.14-0.20230831023331-ef328dbb6ef3 h1:6duUTCzJ2wFznFdTsbzoRfzgvzke69ptdmVqgSolqyw=
+github.com/scroll-tech/go-ethereum v1.10.14-0.20230831023331-ef328dbb6ef3/go.mod h1:DiN3p2inoXOxGffxSswDKqWjQ7bU+Mp0c9v0XQXKmaA=
 github.com/scroll-tech/zktrie v0.6.0 h1:xLrMAO31Yo2BiPg1jtYKzcjpEFnXy8acbB7iIsyshPs=
 github.com/scroll-tech/zktrie v0.6.0/go.mod h1:XvNo7vAk8yxNyTjBDj5WIiFzYW4bx/gJ78+NK6Zn6Uk=
 github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible h1:Bn1aCHHRnjv4Bl16T8rcaFjYSrGrIZvpiGO6P3Q4GpU=
