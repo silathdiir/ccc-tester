@@ -118,4 +118,17 @@ contract Ecc {
             // require(checked);
         }
     }
+
+    // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/8a0b7bed82d6b8053872c3fd40703efd58f5699d/test/utils/cryptography/ECDSA.test.js#L230
+    function ecRecovers(uint256 n) public
+    {
+        bytes32 hash = 0xb94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9;
+        bytes32 r = 0xe742ff452d41413616a5bf43fe15dd88294e983d3d36206c2712f39083d638bd;
+        uint8 v = 0x1b;
+        bytes32 s = 0xe0a0fc89be718fbc1033e1d30d78be1c68081562ed2e97af876f286f3453231d;
+
+        for (uint i = 0; i < n; i++) {
+            ecrecover(hash, v, r, s);
+        }
+    }
 }

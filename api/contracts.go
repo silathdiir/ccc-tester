@@ -513,6 +513,8 @@ func NewEcc(ctx context.Context, client *ethclient.Client, root, auth *bind.Tran
 			tx, err = impl.EcMuls(root, big.NewInt(timesInner))
 		case "pairing":
 			tx, err = impl.EcPairings(root, big.NewInt(timesInner))
+		case "recover":
+			tx, err = impl.EcRecovers(root, big.NewInt(timesInner))
 		default:
 			return errors.New("unimplemented")
 		}

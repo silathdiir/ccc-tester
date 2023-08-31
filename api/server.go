@@ -43,6 +43,7 @@ const (
 	EcAddName     = SolType("ecAdd")
 	EcMulName     = SolType("ecMul")
 	EcPairingName = SolType("ecPairing")
+	EcRecoverName = SolType("ecRecover")
 
 	// hash contracts
 	Sha256Name    = SolType("sha256")
