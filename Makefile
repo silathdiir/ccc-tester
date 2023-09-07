@@ -1,6 +1,6 @@
 .PHONY: update trace_dumper geth clean docker start_docker trace_data
 
-VERSION=scroll-v4.4.2
+VERSION=develop
 
 update: ## Let's keep it and docker version in consistent.
 	go get -u github.com/scroll-tech/go-ethereum@${VERSION}
@@ -14,7 +14,7 @@ clean: ## Delete generated artifacts
 	rm -rf ${PWD}/bin/*  ${PWD}/tracedata/*
 
 start_docker:
-	docker run --rm -p 8545:8545 -p 8546:8546 trace-dumper/l2geth:${VERSION}
+	docker run --rm -p 8545:8545 -p 8546:8546 trace-dumper/l2geth:latest
 
 docker: ## Build integration-test image
 	docker build --platform linux/x86_64 --no-cache -t trace-dumper/l2geth:latest ./docker/l2geth/.

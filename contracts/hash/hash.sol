@@ -35,5 +35,6 @@ contract Hash {
             bytes memory input = abi.encode(i);
             output[i] = keccak256(input);
         }
+        // return output;
     }
 }
